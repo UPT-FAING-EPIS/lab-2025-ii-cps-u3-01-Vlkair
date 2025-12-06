@@ -2,6 +2,137 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=21967516)
 # SESION DE LABORATORIO N° 01: GESTION AUTOMATIZADA DE PRUEBAS CON GITHUB
 
+---
+
+## 📋 INFORME DE LABORATORIO
+
+### 1. RESUMEN DEL PROYECTO
+Este laboratorio implementa un sistema bancario básico en C# (.NET 8) con pruebas automatizadas utilizando BDD (Behavior-Driven Development) con SpecFlow y NUnit. El proyecto incluye integración continua mediante GitHub Actions y análisis de código con SonarCloud.
+
+### 2. ESTRUCTURA DEL PROYECTO
+
+#### 2.1 Bank.Domain (Proyecto Principal)
+Contiene las clases del dominio del negocio:
+
+- **Cliente.cs**: Representa un cliente del banco
+  - Propiedades: `IdCliente`, `NombreCliente`
+  - Método estático `Registrar(string _nombre)`: Crea un nuevo cliente con el nombre especificado
+
+- **CuentaAhorro.cs**: Representa una cuenta de ahorros
+  - Propiedades: `IdCuenta`, `NumeroCuenta`, `Propietario`, `Tasa`, `Saldo`, `FechaApertura`, `Estado`
+  - Método `Aperturar()`: Crea una nueva cuenta de ahorros para un cliente
+  - Método `Depositar(decimal monto)`: Permite depositar dinero en la cuenta
+  - Método `Retirar(decimal monto)`: Permite retirar dinero de la cuenta
+  - Validación: Ambos métodos validan que el monto sea mayor a 0, lanzando una excepción si no cumple
+
+#### 2.2 Bank.Domain.Tests (Proyecto de Pruebas)
+Implementa pruebas BDD usando SpecFlow:
+
+- **CuentaAhorro.feature**: Define los escenarios de prueba en lenguaje Gherkin
+  - Escenario 1: Cliente deposita correctamente
+  - Escenario 2: Cliente retira correctamente
+  - Escenario 3: Cliente intenta retirar monto negativo (validación de error)
+
+- **CuentaAhorroPruebas.cs**: Implementa los pasos (steps) para ejecutar las pruebas
+  - `[Given]`: Configura el estado inicial (nueva cuenta, saldo inicial)
+  - `[When]`: Ejecuta las acciones (depositar, retirar)
+  - `[Then]`: Verifica los resultados esperados (saldo correcto, errores esperados)
+
+### 3. FUNCIONALIDADES IMPLEMENTADAS
+
+#### 3.1 Gestión de Clientes
+- Registro de clientes con nombre
+
+#### 3.2 Gestión de Cuentas de Ahorro
+- Apertura de cuentas de ahorro con número de cuenta, propietario y tasa
+- Depósitos en cuenta
+- Retiros de cuenta
+- Control de saldo
+- Validación de montos (no permite montos negativos o cero)
+
+#### 3.3 Pruebas Automatizadas (BDD)
+- Pruebas escritas en lenguaje Gherkin (comprensible para no técnicos)
+- 3 escenarios de prueba implementados:
+  1. Depósito exitoso
+  2. Retiro exitoso
+  3. Validación de errores en retiros
+
+### 4. INTEGRACIÓN CONTINUA (CI/CD)
+
+#### 4.1 GitHub Actions
+Se configuró un workflow automatizado (`.github/workflows/ci.yml`) que se ejecuta en cada push a main:
+
+**Pasos del Pipeline:**
+1. **Checkout del código**: Descarga el repositorio
+2. **Configuración de .NET 8**: Instala el SDK de .NET
+3. **Configuración de Java 17**: Necesario para SonarCloud
+4. **Restaurar paquetes**: `dotnet restore` - Descarga las dependencias NuGet
+5. **Ejecutar pruebas**: `dotnet test --collect:"XPlat Code Coverage"` - Ejecuta las pruebas y genera cobertura
+6. **Generar reporte**: Usa ReportGenerator para crear reportes de cobertura en formato Markdown
+7. **Subir artefactos**: Guarda el reporte de cobertura como artefacto del workflow
+
+#### 4.2 SonarCloud
+- Configurado para análisis estático de código
+- Evaluación de calidad de código
+- Detección de code smells, bugs y vulnerabilidades
+- Token configurado como secreto en GitHub (`SONAR_TOKEN`)
+
+#### 4.3 GitHub Pages
+- Rama `bddreporte` configurada para publicar reportes
+- URL pública para acceso a documentación y reportes
+
+### 5. TECNOLOGÍAS UTILIZADAS
+
+| Tecnología | Propósito |
+|------------|-----------|
+| .NET 8 | Framework de desarrollo |
+| C# | Lenguaje de programación |
+| SpecFlow | Framework BDD para pruebas |
+| NUnit | Framework de pruebas unitarias |
+| GitHub Actions | CI/CD - Automatización de pruebas |
+| SonarCloud | Análisis de calidad de código |
+| ReportGenerator | Generación de reportes de cobertura |
+| Docker | Containerización (requerimiento) |
+
+### 6. COMANDOS PRINCIPALES
+
+```bash
+# Restaurar dependencias
+dotnet restore
+
+# Compilar el proyecto
+dotnet build
+
+# Ejecutar pruebas
+dotnet test
+
+# Ejecutar pruebas con cobertura
+dotnet test --collect:"XPlat Code Coverage"
+```
+
+### 7. RESULTADOS OBTENIDOS
+
+✅ **Implementación exitosa de:**
+- Dominio del negocio (Cliente y CuentaAhorro)
+- Validaciones de negocio
+- Pruebas BDD con SpecFlow
+- Pipeline de CI/CD con GitHub Actions
+- Integración con SonarCloud
+- Generación automática de reportes de cobertura
+
+### 8. CONCLUSIONES
+
+Este laboratorio demuestra la implementación de:
+- **Buenas prácticas** en desarrollo de software con arquitectura por capas
+- **Testing automatizado** usando BDD para pruebas comprensibles
+- **Integración continua** con ejecución automática de pruebas
+- **Análisis de calidad** de código con herramientas especializadas
+- **DevOps** con automatización completa del ciclo de desarrollo
+
+El proyecto está listo para escalar agregando más funcionalidades bancarias (transferencias, consultas, estados de cuenta, etc.) manteniendo la misma estructura de pruebas automatizadas.
+
+---
+
 ## OBJETIVOS
   * Desarrollar la automatización de la gestión de pruebas de una aplicación utilizando Github Actions.
 
