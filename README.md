@@ -3,8 +3,10 @@
 # SESION DE LABORATORIO N° 01: GESTION AUTOMATIZADA DE PRUEBAS CON GITHUB
 
 ---
+# VICTOR WILLIAMS CRUZ MAMANI - 2022073903
 
 ## 📋 INFORME DE LABORATORIO
+
 
 ### 1. RESUMEN DEL PROYECTO
 Este laboratorio implementa un sistema bancario básico en C# (.NET 8) con pruebas automatizadas utilizando BDD (Behavior-Driven Development) con SpecFlow y NUnit. El proyecto incluye integración continua mediante GitHub Actions y análisis de código con SonarCloud.
