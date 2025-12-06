@@ -7,9 +7,18 @@
 
 ## 📋 INFORME DE LABORATORIO
 
+### DATOS GENERALES
+- **Asignatura**: Calidad y Pruebas de Software
+- **Estudiante**: Victor Williams Cruz Mamani
+- **Código**: 2022073903
+- **Fecha**: 05 de diciembre de 2025
+- **Tema**: Gestión Automatizada de Pruebas con GitHub
+- **Repositorio**: [lab-2025-ii-cps-u3-01-Vlkair](https://github.com/UPT-FAING-EPIS/lab-2025-ii-cps-u3-01-Vlkair)
 
-### 1. RESUMEN DEL PROYECTO
-Este laboratorio implementa un sistema bancario básico en C# (.NET 8) con pruebas automatizadas utilizando BDD (Behavior-Driven Development) con SpecFlow y NUnit. El proyecto incluye integración continua mediante GitHub Actions y análisis de código con SonarCloud.
+---
+
+### 1. RESUMEN EJECUTIVO
+Este laboratorio implementa un sistema bancario básico en C# (.NET 8) con pruebas automatizadas utilizando **BDD (Behavior-Driven Development)** con SpecFlow y NUnit. El proyecto incluye integración continua mediante **GitHub Actions**, análisis de calidad de código con **SonarCloud** y generación automática de reportes de cobertura y documentación viva (Living Documentation).
 
 ### 2. ESTRUCTURA DEL PROYECTO
 
@@ -112,26 +121,154 @@ dotnet test
 dotnet test --collect:"XPlat Code Coverage"
 ```
 
-### 7. RESULTADOS OBTENIDOS
+### 7. ANÁLISIS DE COBERTURA DE PRUEBAS
+
+El proyecto implementa cobertura de código mediante el uso de:
+- **Coverlet**: Recolección de cobertura de código multiplataforma
+- **ReportGenerator**: Generación de reportes en múltiples formatos (Markdown, HTML)
+- **Reportes automáticos**: Publicados en GitHub Actions Summary
+
+**Escenarios de prueba cubiertos:**
+- ✅ Depósito exitoso con validación de saldo
+- ✅ Retiro exitoso con validación de saldo
+- ✅ Validación de montos negativos (caso de error)
+- ✅ Validación de montos igual a cero (caso de error)
+
+### 8. INTEGRACIÓN CON SONARCLOUD
+
+**Métricas de calidad analizadas:**
+- Code Smells
+- Bugs potenciales
+- Vulnerabilidades de seguridad
+- Deuda técnica
+- Duplicación de código
+- Cobertura de pruebas
+
+**Configuración:**
+- Organization: Configurada en variables de entorno
+- Project Key: Definido en workflow de GitHub Actions
+- Token: Almacenado como secreto en GitHub (`SONAR_TOKEN`)
+
+### 9. DOCUMENTACIÓN VIVA (LIVING DOCUMENTATION)
+
+Se implementó generación automática de documentación mediante **SpecFlow Living Doc**:
+
+**Características:**
+- Conversión automática de archivos `.feature` a HTML
+- Publicación en GitHub Pages (rama `bddreporte`)
+- Acceso público a documentación actualizada
+- Sincronización con cada push a la rama principal
+
+**Herramientas utilizadas:**
+```bash
+dotnet tool install -g SpecFlow.Plus.LivingDoc.CLI
+livingdoc test-assembly ./Bank.Domain.Tests/bin/Debug/net8.0/Bank.Domain.Tests.dll -t ./Bank.Domain.Tests/bin/Debug/net8.0/TestExecution.json -o ./report/index.html
+```
+
+### 10. WORKFLOW DE GITHUB ACTIONS
+
+**Jobs implementados:**
+1. **Checkout del código**: Obtiene la última versión del repositorio
+2. **Setup .NET SDK**: Configura .NET 8.x
+3. **Setup Java**: Configura Java 17 (requerido por SonarScanner)
+4. **Restore**: Restaura dependencias NuGet
+5. **Test con Cobertura**: Ejecuta pruebas y recolecta cobertura
+6. **Generate Reports**: Genera reportes de cobertura en Markdown
+7. **Upload Artifacts**: Guarda reportes como artefactos
+8. **SonarCloud Scan**: Analiza calidad de código
+9. **Living Doc**: Genera documentación viva
+10. **Deploy to GitHub Pages**: Publica reportes en rama `bddreporte`
+
+**Triggers:**
+- Push a rama `main`
+- Ejecución manual (`workflow_dispatch`)
+
+### 11. RESULTADOS OBTENIDOS
 
 ✅ **Implementación exitosa de:**
-- Dominio del negocio (Cliente y CuentaAhorro)
-- Validaciones de negocio
-- Pruebas BDD con SpecFlow
-- Pipeline de CI/CD con GitHub Actions
-- Integración con SonarCloud
-- Generación automática de reportes de cobertura
+- ✅ Dominio del negocio (Cliente y CuentaAhorro) con validaciones
+- ✅ 3 escenarios BDD con SpecFlow
+- ✅ Pipeline de CI/CD completamente funcional
+- ✅ Integración con SonarCloud para análisis de calidad
+- ✅ Generación automática de reportes de cobertura
+- ✅ Living Documentation publicada en GitHub Pages
+- ✅ Gestión de secretos con GitHub Secrets
+- ✅ Artefactos de pruebas disponibles para descarga
 
-### 8. CONCLUSIONES
+**Evidencias:**
+- ✅ GitHub Actions ejecutándose correctamente
+- ✅ SonarCloud mostrando métricas de calidad
+- ✅ GitHub Pages con documentación actualizada
+- ✅ Reportes de cobertura en Markdown
+- ✅ Todas las pruebas pasando exitosamente
 
-Este laboratorio demuestra la implementación de:
-- **Buenas prácticas** en desarrollo de software con arquitectura por capas
-- **Testing automatizado** usando BDD para pruebas comprensibles
-- **Integración continua** con ejecución automática de pruebas
-- **Análisis de calidad** de código con herramientas especializadas
-- **DevOps** con automatización completa del ciclo de desarrollo
+### 12. DESAFÍOS Y SOLUCIONES
 
-El proyecto está listo para escalar agregando más funcionalidades bancarias (transferencias, consultas, estados de cuenta, etc.) manteniendo la misma estructura de pruebas automatizadas.
+| Desafío | Solución Implementada |
+|---------|----------------------|
+| Configuración de SonarCloud | Generación de token y configuración como secreto en GitHub |
+| Cobertura de código | Uso de Coverlet con ReportGenerator |
+| Publicación de reportes | GitHub Pages con rama dedicada `bddreporte` |
+| Validación de negocio | Implementación de excepciones personalizadas |
+| Living Documentation | SpecFlow Living Doc CLI integrado en workflow |
+
+### 13. CONCLUSIONES
+
+Este laboratorio demuestra la implementación exitosa de:
+
+1. **Buenas prácticas de desarrollo**:
+   - Arquitectura por capas (Domain y Tests separados)
+   - Principios SOLID aplicados
+   - Validaciones de negocio robustas
+
+2. **Testing automatizado**:
+   - BDD con Gherkin para pruebas comprensibles por stakeholders
+   - Cobertura de código automática
+   - Pruebas ejecutadas en cada commit
+
+3. **Integración continua**:
+   - Pipeline automatizado con GitHub Actions
+   - Análisis de calidad continuo con SonarCloud
+   - Generación automática de documentación
+
+4. **DevOps y automatización**:
+   - CI/CD completamente configurado
+   - Gestión de secretos segura
+   - Publicación automática de artefactos
+
+5. **Documentación**:
+   - Living Documentation actualizada automáticamente
+   - Reportes de cobertura disponibles
+   - Métricas de calidad visibles
+
+**Impacto del proyecto:**
+- ✅ Reducción de errores mediante pruebas automatizadas
+- ✅ Mayor confianza en despliegues
+- ✅ Documentación siempre actualizada
+- ✅ Visibilidad de métricas de calidad
+- ✅ Proceso de desarrollo más eficiente
+
+**Escalabilidad:**
+El proyecto está listo para escalar agregando:
+- Más funcionalidades bancarias (transferencias, consultas, estados de cuenta)
+- Más escenarios de prueba BDD
+- Integración con bases de datos
+- APIs REST
+- Autenticación y autorización
+
+Todo manteniendo la misma estructura de pruebas automatizadas y calidad de código.
+
+### 14. RECOMENDACIONES
+
+Para futuros desarrollos se recomienda:
+1. Implementar pruebas de integración con base de datos
+2. Agregar pruebas de rendimiento
+3. Implementar pruebas de seguridad automatizadas
+4. Configurar análisis de dependencias vulnerables
+5. Implementar deployment automático a ambientes de prueba
+6. Agregar notificaciones de resultados de CI/CD
+7. Implementar validación de commits con pre-commit hooks
+8. Configurar análisis de pull requests antes de merge
 
 ---
 
